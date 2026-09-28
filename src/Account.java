@@ -5,11 +5,13 @@ class Account {
     private int accountNumber;
     private String accountSortCode;
     private String accountType;
+    private String accountName;
 
-    Account(String accountType) {
+    Account(String accountType, String accountName) {
         this.accountNumber = generateAccountNumber();
         this.accountSortCode = generateAccountSortCode();
         this.accountType = accountType;
+        this.accountName = accountName;
     }
 
     private int generateAccountNumber() {
@@ -41,5 +43,12 @@ class Account {
         this.accountType = accountType;
     }
 
+    String getAccountName() {
+        return accountName;
+    }
+
+    void setAccountNumber(String accountName) {
+        this.accountName = accountName;
+    }
 
 }
