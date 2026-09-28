@@ -63,11 +63,7 @@ void Accountmanager() {
 
 }
 
- void selectUserAccounts() {
-    for(int i = 0; i < userAccounts.size(); i++) {
-        IO.print("Your accounts: " + userAccounts.get(i).getAccountType());
-    }
-}
+
 
 
 void createNewAccount() {
