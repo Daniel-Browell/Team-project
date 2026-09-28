@@ -19,11 +19,10 @@ void Accountmanager() {
     // Need to replace Placeholder with the name of the User pulled from Login
     IO.println("Hello there "+(Username)+", this is the account management page. Below are your accounts:");
     // Need to replac the following place holders with things that pull the acccount details from storage.
-    String AccountName = "PlaceHolder";
-    String AccountType = "PlaceHolder";
-    String AccountSortcode = "1234";
-    int AccountNumber = 1234;
-    IO.println("Account Name: "+AccountName+"\nAccount Type: "+AccountType+"\nAccount Sortcode: "+AccountSortcode+"\nAccount Number: "+AccountNumber);
+    for(int i = 0; i < userAccounts.size(); i++) {
+        IO.print("Account "+i+" name: " + userAccounts.get(i).getAccountName());
+        IO.print("");
+    }
     String answer =IO.readln("PLease select a numbered option: \n 1. Select an Account\n 2. Create a new Account\n 3. Exit\n");
     if(answer.equalsIgnoreCase("1")){
         String Accountchoice = IO.readln("Please enter your choice: ");
@@ -42,7 +41,7 @@ void Accountmanager() {
             }
 
 
-        }
+}
 
  void selectUserAccounts() {
     for(int i = 0; i < userAccounts.size(); i++) {
