@@ -13,6 +13,26 @@ void main() {
 
 
 }
+void selectUserAccounts() {
+    for(int i = 0; i < userAccounts.size(); i++) {
+        IO.println("Your accounts: " + userAccounts.get(i).getAccountName());
+    }
+    String enteredUserAccount = IO.readln("Please enter an account name you'd like to select: ");
+    Account findAccount = findAccountByName(enteredUserAccount);
+    IO.println("You've selected the following account: ");
+    IO.print(findAccount.getAccountName() + " " + findAccount.getAccountType() + " " + findAccount.getAccountNumber() + " " + findAccount.getAccountSortCode());
+
+}
+
+// You can then use this method to get any other attribute of an object based off name
+Account findAccountByName(String name) {
+    for(int i = 0; i < userAccounts.size(); i++) {
+        if(userAccounts.get(i).getAccountName().equals(name)) {
+            return userAccounts.get(i);
+        }
+    }
+    return null;
+}
 
 void Accountmanager() {
     String Username = "Placeholder";
