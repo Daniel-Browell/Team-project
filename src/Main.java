@@ -1,13 +1,54 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
+// Useful imports
+import java.util.ArrayList;
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
+// Storing the accounts
+ArrayList<Account> userAccounts = new ArrayList<>();
+
+
+void main() {
+
+
+    // Run Account Creation System
+    createNewAccount();
+
+
+}
+
+
+ void selectUserAccounts() {
+    for(int i = 0; i < userAccounts.size(); i++) {
+        IO.print("Your accounts: " + userAccounts.get(i).getAccountType());
+    }
+}
+
+
+void createNewAccount() {
+    String enteredAccountType = IO.readln("Please enter the type of account you'd like to create: ");
+    String enteredAccountName = IO.readln("Please enter a name for this account: ");
+
+    if(checkIfAccountTypeIsValid(enteredAccountType) == Boolean.TRUE) {
+        Account newAccount = new Account(enteredAccountType, enteredAccountName);
+        IO.println(enteredAccountType + " Account created successfully.");
+        userAccounts.add(newAccount);
+        selectUserAccounts();
+        // WE NEED TO RETURN BACK TO A HOME SCREEN / MENU
+    }
+    else {
+        IO.println("This is not a valid account type: ");
+    }
+}
+
+Boolean checkIfAccountTypeIsValid(String enteredAccountType) {
+    if(enteredAccountType.equals("Community")) {
+        return Boolean.TRUE;
+    }
+    if (enteredAccountType.equals("Small Business")) {
+        return Boolean.TRUE;
+    }
+    if (enteredAccountType.equals( "Client")) {
+        return Boolean.TRUE;
+    }
+    else {
+        return Boolean.FALSE;
     }
 }
