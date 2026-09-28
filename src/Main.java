@@ -20,7 +20,7 @@ void selectUserAccounts() {
     String enteredUserAccount = IO.readln("Please enter an account name you'd like to select: ");
     Account findAccount = findAccountByName(enteredUserAccount);
     IO.println("You've selected the following account: ");
-    IO.print(findAccount.getAccountName() + " " + findAccount.getAccountType() + " " + findAccount.getAccountNumber() + " " + findAccount.getAccountSortCode());
+    IO.print(findAccount.getAccountName() + " " + findAccount.getAccountType() + " " + findAccount.getAccountNumber() + " " + findAccount.getAccountSortCode() + " " + findAccount.getBalance);
 
 }
 
@@ -40,23 +40,23 @@ void Accountmanager() {
     IO.println("Hello there "+(Username)+", this is the account management page. Below are your accounts:");
     // Need to replac the following place holders with things that pull the acccount details from storage.
     for(int i = 0; i < userAccounts.size(); i++) {
-        IO.print("Account "+i+" name: " + userAccounts.get(i).getAccountName());
-        IO.print("");
+        IO.print("Account "+(i+1)+" name: " + userAccounts.get(i).getAccountName());
+        IO.print("\n");
     }
-    String answer =IO.readln("PLease select a numbered option: \n 1. Select an Account\n 2. Create a new Account\n 3. Exit\n");
+    String answer =IO.readln("\nPlease select a numbered option: \n 1. Select an Account\n 2. Create a new Account\n 3. Exit\n");
     if(answer.equalsIgnoreCase("1")){
         String Accountchoice = IO.readln("Please enter your choice: ");
         if(Accountchoice.equalsIgnoreCase("Placeholder")){
-            IO.readln("Moving to account!");
+            IO.println("Moving to account!");
             // need to go to the account here
         }
     }
     else if(answer.equalsIgnoreCase("2")){
-        IO.readln("Moving to account creation!");
-        //need to go to account creation here
+        IO.println("Moving to account creation!");
+        createNewAccount();
     }
     else if(answer.equalsIgnoreCase("3")){
-                IO.readln("Goodbye");
+                IO.println("Goodbye");
                 //Exit here
             }
 
@@ -74,7 +74,7 @@ void createNewAccount() {
         Account newAccount = new Account(enteredAccountType, enteredAccountName);
         IO.println(enteredAccountType + " Account created successfully.");
         userAccounts.add(newAccount);
-        selectUserAccounts();
+        Accountmanager();
         // WE NEED TO RETURN BACK TO A HOME SCREEN / MENU
     }
     else {
@@ -90,6 +90,15 @@ Boolean checkIfAccountTypeIsValid(String enteredAccountType) {
         return Boolean.TRUE;
     }
     if (enteredAccountType.equals( "Client")) {
+        return Boolean.TRUE;
+    }
+    if(enteredAccountType.equals("community")) {
+        return Boolean.TRUE;
+    }
+    if (enteredAccountType.equals("small Business")) {
+        return Boolean.TRUE;
+    }
+    if (enteredAccountType.equals( "client")) {
         return Boolean.TRUE;
     }
     else {
