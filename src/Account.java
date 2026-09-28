@@ -6,12 +6,14 @@ class Account {
     private String accountSortCode;
     private String accountType;
     private String accountName;
+    public double balance;
 
     Account(String accountType, String accountName) {
         this.accountNumber = generateAccountNumber();
         this.accountSortCode = generateAccountSortCode();
         this.accountType = accountType;
         this.accountName = accountName;
+        this.balance = setBalanceToZero();
     }
 
     private int generateAccountNumber() {
@@ -50,5 +52,14 @@ class Account {
     void setAccountNumber(String accountName) {
         this.accountName = accountName;
     }
+
+    double setBalanceToZero() {
+        balance = 0;
+        return balance;
+    }
+
+   double getBalance() {
+        return balance;
+   }
 
 }
