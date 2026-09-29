@@ -20,7 +20,7 @@ void selectUserAccounts() {
     String enteredUserAccount = IO.readln("Please enter an account name you'd like to select: ");
     Account findAccount = findAccountByName(enteredUserAccount);
     IO.println("You've selected the following account: ");
-    IO.print(findAccount.getAccountName() + " " + findAccount.getAccountType() + " " + findAccount.getAccountNumber() + " " + findAccount.getAccountSortCode() + " " + findAccount.getBalance);
+    IO.print(findAccount.getAccountName() + " " + findAccount.getAccountType() + " " + findAccount.getAccountNumber() + " " + findAccount.getAccountSortCode() + " " + findAccount.getBalance());
 
 }
 
