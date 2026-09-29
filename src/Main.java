@@ -48,7 +48,7 @@ void Accountmanager() {
         String Accountchoice = IO.readln("Please enter your choice: ");
         if(Accountchoice.equalsIgnoreCase("Placeholder")){
             IO.println("Moving to account!");
-            // need to go to the account here
+            AccountCheck();
         }
     }
     else if(answer.equalsIgnoreCase("2")){
@@ -62,7 +62,64 @@ void Accountmanager() {
 
 
 }
+void AccountCheck() {
+    String CurrentSelectedAccount = "Placeholder";
+    //Above you need a loop to pull all the details of the account from the globale variable
+    IO.println("Current account view: "+CurrentSelectedAccount);
+    IO.println("Account Type: "+CurrentSelectedAccount);
+    IO.println("Account Number: "+CurrentSelectedAccount);
+    IO.println("Account Sort Code: "+CurrentSelectedAccount);
+    IO.println("Balance"+CurrentSelectedAccount);
+    int ans = Integer.parseInt(IO.readln("\nPlease enter the number of the operation you wish to perform:\n1. Deposit\n2. Withdraw\n3. Transfer Money\n4. Exit\n"));
+    if (ans == 1) {
+        int depositamount = Integer.parseInt(IO.readln("Please enter the amount you wish to deposit:\n"));
+        IO.readln("Please enter your card number:\n");
+        IO.readln("Please enter your card's expiry date:\n");
+        IO.readln("Please enter your card's CVV:\n");
+        IO.println("The sum of"+depositamount+" has been deposited into your account");
+        // need to add the actual deposit function
+        String nextstep = IO.readln("Please enter either Return to return to the account manager or Stay to stay on this account:\n");
+        if (nextstep.equalsIgnoreCase("Return")){
+            Accountmanager();
+        }
+        else{
+            AccountCheck();
+        }
+    } else if (ans ==2) {
+        int withdrawamount = Integer.parseInt(IO.readln("Please enter the amount you wish to withdraw:\n"));
+        IO.readln("Please enter your sort code:\n");
+        IO.readln("Please enter your account number:\n");
+        IO.println("The sum of"+withdrawamount+" has been withdrawn from your account");
+        //need to add actual withdraw function
+        String nextstep = IO.readln("Please enter either Return to return to the account manager or Stay to stay on this account:\n");
+        if (nextstep.equalsIgnoreCase("Return")){
+            Accountmanager();
+        }
+        else{
+            AccountCheck();
+        }
 
+    }
+    else if (ans ==3) {
+        int transferamount = Integer.parseInt(IO.readln("Please enter the amount you wish to transfer:\n"));
+        String transferdestination = IO.readln("Please enter the destination you wish to transfer:\n");
+        IO.println("The sum of"+transferamount+" has been withdrawn from this account and transferred to "+transferdestination);
+        // need to add actual transfer functionality
+        String nextstep = IO.readln("Please enter either Return to return to the account manager or Stay to stay on this account:\n");
+        if (nextstep.equalsIgnoreCase("Return")){
+            Accountmanager();
+        }
+        else{
+            AccountCheck();
+        }
+
+    }
+    else if (ans == 4) {
+        Accountmanager();
+
+    }
+
+}
 
 
 
