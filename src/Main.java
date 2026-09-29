@@ -26,6 +26,7 @@
                     createNewAccount(user);
                 }
                 else {
+                    IO.println("Hello there " + user.getUsername() + ", this is the account management page. Below are your accounts:");
                     Accountmanager(user);
                 }
 
@@ -49,7 +50,7 @@
 
         void Accountmanager(User user) {
             // Need to replace Placeholder with the name of the User pulled from Login
-            IO.println("Hello there " + user.getUsername() + ", this is the account management page. Below are your accounts:");
+            //IO.println("Hello there " + user.getUsername() + ", this is the account management page. Below are your accounts:");
             // Need to replac the following place holders with things that pull the acccount details from storage.
             for(int i = 0; i < user.getAccounts().size(); i++) {
                 IO.print("Account "+(i+1)+" name: " + user.getAccounts().get(i).getAccountName());
@@ -67,12 +68,20 @@
                 IO.println("Goodbye");
                 //Exit here
             }
+            else {
+                IO.println("Something went wrong, thats not a valid option.");
+                Accountmanager(user);
+            }
 
         }
 
         void AccountCheck(User user) {
             String enteredUserAccount = IO.readln("Please enter an account name you'd like to select: ");
             Account findAccount = findAccountByName(user, enteredUserAccount);
+            if(findAccount == null) {
+                IO.println("Something went wrong, please make sure that the case you have used matches what we have on file.");
+                AccountCheck(user);
+            }
             //Above you need a loop to pull all the details of the account from the global variable
             IO.println("Current account view: "+findAccount.getAccountName());
             IO.println("Account Type: "+findAccount.getAccountType());
@@ -84,30 +93,24 @@
 
             if (ans == 1) {
                 // DEPOSIT SYSTEM
-                int depositamount = Integer.parseInt(IO.readln("Please enter the amount you wish to deposit:\n"));
+                Double depositamount = Double.parseDouble(IO.readln("Please enter the amount you wish to deposit:\n"));
                 IO.readln("Please enter your card number:\n");
                 IO.readln("Please enter your card's expiry date:\n");
                 IO.readln("Please enter your card's CVV:\n");
 
                 // CHECK IF SUCCESSFULL
                 if(findAccount.deposit(depositamount)) {
-                    IO.println("The sum of" + depositamount + " has been deposited into your account.");
+                    IO.println("The sum of " + depositamount + " has been deposited into your account.");
                     IO.println("Your new balance is: " + findAccount.getBalance());
                 }
                 else {
                     IO.println("Your balance hasn't been changed.");
                 }
 
-                String nextstep = IO.readln("Please enter either Return to return to the account manager or Stay to stay on this account:\n");
-                if (nextstep.equalsIgnoreCase("Return")){
-                    Accountmanager(user);
-                }
-                else{
-                    AccountCheck(user);
-                }
+                AccountCheck(user);
             } else if (ans ==2) {
                 // WITHDRAW SYSTEM
-                int withdrawamount = Integer.parseInt(IO.readln("Please enter the amount you wish to withdraw:\n"));
+                Double withdrawamount = Double.parseDouble(IO.readln("Please enter the amount you wish to withdraw:\n"));
                 IO.readln("Please enter your sort code:\n");
                 IO.readln("Please enter your account number:\n");
 
@@ -120,17 +123,11 @@
                     IO.println("Your balance hasn't been changed.");
                 }
                 // Return Back
-                String nextstep = IO.readln("Please enter either Return to return to the account manager or Stay to stay on this account:\n");
-                if (nextstep.equalsIgnoreCase("Return")){
-                    Accountmanager(user);
-                }
-                else{
-                    AccountCheck(user);
-                }
+                AccountCheck(user);
 
             } else if (ans ==3) {
                 // TRANSFER SYSTEM
-                int transferamount = Integer.parseInt(IO.readln("Please enter the amount you wish to transfer:\n"));
+                Double transferamount = Double.parseDouble(IO.readln("Please enter the amount you wish to transfer:\n"));
 
                 // Get the destination account
                 String transferdestination = IO.readln("Please enter the destination you wish to transfer:\n");
@@ -145,16 +142,11 @@
                 else {
                     IO.println("Transfer failed.");
                 }
-                String nextstep = IO.readln("Please enter either Return to return to the account manager or Stay to stay on this account:\n");
-                if (nextstep.equalsIgnoreCase("Return")){
-                    Accountmanager(user);
-                }
-                else{
-                    AccountCheck(user);
-                }
+                AccountCheck(user);
 
             }
             else if (ans == 4) {
+                IO.println("Hello there " + user.getUsername() + ", this is the account management page. Below are your accounts:");
                 Accountmanager(user);
 
             }
@@ -177,13 +169,20 @@
         return overdraft;
     }
         void createNewAccount(User user) {
-            String enteredAccountType = IO.readln("Please enter the type of account you'd like to create: ");
             String enteredAccountName = IO.readln("Please enter a name for this account: ");
+            for(int i = 0; i < user.getAccounts().size(); i++) {
+                if (user.getAccounts().get(i).getAccountName().equalsIgnoreCase(enteredAccountName)) {
+                    IO.println("Account name already exists.");
+                    createNewAccount(user);
+                }
+            }
+            String enteredAccountType = IO.readln("Please enter the type of account you'd like to create: ");
 
             if(checkIfAccountTypeIsValid(enteredAccountType) == Boolean.TRUE) {
                 Account newAccount = new Account(enteredAccountType, enteredAccountName);
                 IO.println(enteredAccountType + " Account created successfully.");
                 user.getAccounts().add(newAccount);
+                IO.println("Hello there " + user.getUsername() + ", this is the account management page. Below are your accounts:");
                 Accountmanager(user);
             }
             else {
