@@ -79,6 +79,7 @@
             IO.println("Account Number: "+findAccount.getAccountNumber());
             IO.println("Account Sort Code: "+findAccount.getAccountSortCode());
             IO.println("Balance: "+findAccount.getBalance());
+            IO.println("Overdraft Available: "+overdraftcheck(user, findAccount));
             int ans = Integer.parseInt(IO.readln("\nPlease enter the number of the operation you wish to perform:\n1. Deposit\n2. Withdraw\n3. Transfer Money\n4. Exit\n"));
 
             if (ans == 1) {
@@ -159,7 +160,22 @@
             }
 
         }
-
+    int overdraftcheck(User user, Account account) {
+        if (account.getAccountType().equalsIgnoreCase("Client")){
+            int overdraft = 1500;
+            return (overdraft);
+        }
+        else if (account.getAccountType().equalsIgnoreCase("Community")){
+            int overdraft = 2500;
+            return (overdraft);
+        }
+        else if (account.getAccountType().equalsIgnoreCase("Small Business")){
+            int overdraft = 1000;
+            return (overdraft);
+        }
+        int overdraft =0;
+        return overdraft;
+    }
         void createNewAccount(User user) {
             String enteredAccountType = IO.readln("Please enter the type of account you'd like to create: ");
             String enteredAccountName = IO.readln("Please enter a name for this account: ");
