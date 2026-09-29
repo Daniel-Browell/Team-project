@@ -6,14 +6,18 @@ class Account {
     private String accountSortCode;
     private String accountType;
     private String accountName;
-    public double balance;
+    private double balance;
+
+    Account () {
+        balance = 0;
+    }
 
     Account(String accountType, String accountName) {
         this.accountNumber = generateAccountNumber();
         this.accountSortCode = generateAccountSortCode();
         this.accountType = accountType;
         this.accountName = accountName;
-        this.balance = setBalanceToZero();
+        this.balance = getBalance();
     }
 
     private int generateAccountNumber() {
@@ -53,13 +57,45 @@ class Account {
         this.accountName = accountName;
     }
 
-    double setBalanceToZero() {
-        balance = 0;
-        return balance;
-    }
-
    double getBalance() {
         return balance;
    }
+
+   boolean deposit(double amount) {
+        if (amount > 0) {
+            balance = balance + amount;
+            return true;
+        }
+        else {
+            IO.println("Deposit amount must be more than 0");
+            return false;
+        }
+    }
+
+    boolean withdraw(double amount) {
+        if (amount <= 0) {
+            IO.println("Withdrawal amount must be more than 0: ");
+            return false;
+        }
+        else if (amount > balance) {
+            IO.println("You don't have enough money for that, your balance is: " + balance);
+            return false;
+        }
+        else {
+            balance = balance - amount;
+            return true;
+        }
+    }
+
+    boolean transferTo(Account otherAccount, double amount) {
+        if (withdraw(amount)) {
+            otherAccount.deposit(amount);
+            IO.println("Transfer successful.");
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
 }
