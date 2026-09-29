@@ -1,9 +1,3 @@
-// Useful imports
-import java.util.ArrayList;
-
-// Storing the accounts
-ArrayList<Account> userAccounts = new ArrayList<>();
-
 
         void main() {
 
@@ -44,10 +38,10 @@ ArrayList<Account> userAccounts = new ArrayList<>();
         }
 
         // You can then use this method to get any other attribute of an object based off name
-        Account findAccountByName(String name) {
-            for(int i = 0; i < userAccounts.size(); i++) {
-                if(userAccounts.get(i).getAccountName().equals(name)) {
-                    return userAccounts.get(i);
+        Account findAccountByName(User user, String name) {
+            for(int i = 0; i < user.getAccounts().size(); i++) {
+                if(user.getAccounts().get(i).getAccountName().equals(name)) {
+                    return user.getAccounts().get(i);
                 }
             }
             return null;
@@ -57,8 +51,8 @@ ArrayList<Account> userAccounts = new ArrayList<>();
             // Need to replace Placeholder with the name of the User pulled from Login
             IO.println("Hello there " + user.getUsername() + ", this is the account management page. Below are your accounts:");
             // Need to replac the following place holders with things that pull the acccount details from storage.
-            for(int i = 0; i < userAccounts.size(); i++) {
-                IO.print("Account "+(i+1)+" name: " + userAccounts.get(i).getAccountName());
+            for(int i = 0; i < user.getAccounts().size(); i++) {
+                IO.print("Account "+(i+1)+" name: " + user.getAccounts().get(i).getAccountName());
                 IO.print("\n");
             }
             String answer =IO.readln("\nPlease select a numbered option: \n 1. Select an Account\n 2. Create a new Account\n 3. Exit\n");
@@ -74,25 +68,35 @@ ArrayList<Account> userAccounts = new ArrayList<>();
                 //Exit here
             }
 
-
         }
+
         void AccountCheck(User user) {
             String enteredUserAccount = IO.readln("Please enter an account name you'd like to select: ");
-            Account findAccount = findAccountByName(enteredUserAccount);
-            //Above you need a loop to pull all the details of the account from the globale variable
+            Account findAccount = findAccountByName(user, enteredUserAccount);
+            //Above you need a loop to pull all the details of the account from the global variable
             IO.println("Current account view: "+findAccount.getAccountName());
             IO.println("Account Type: "+findAccount.getAccountType());
             IO.println("Account Number: "+findAccount.getAccountNumber());
             IO.println("Account Sort Code: "+findAccount.getAccountSortCode());
             IO.println("Balance: "+findAccount.getBalance());
             int ans = Integer.parseInt(IO.readln("\nPlease enter the number of the operation you wish to perform:\n1. Deposit\n2. Withdraw\n3. Transfer Money\n4. Exit\n"));
+
             if (ans == 1) {
+                // DEPOSIT SYSTEM
                 int depositamount = Integer.parseInt(IO.readln("Please enter the amount you wish to deposit:\n"));
                 IO.readln("Please enter your card number:\n");
                 IO.readln("Please enter your card's expiry date:\n");
                 IO.readln("Please enter your card's CVV:\n");
-                IO.println("The sum of"+depositamount+" has been deposited into your account");
-                // need to add the actual deposit function
+
+                // CHECK IF SUCCESSFULL
+                if(findAccount.deposit(depositamount)) {
+                    IO.println("The sum of" + depositamount + " has been deposited into your account.");
+                    IO.println("Your new balance is: " + findAccount.getBalance());
+                }
+                else {
+                    IO.println("Your balance hasn't been changed.");
+                }
+
                 String nextstep = IO.readln("Please enter either Return to return to the account manager or Stay to stay on this account:\n");
                 if (nextstep.equalsIgnoreCase("Return")){
                     Accountmanager(user);
@@ -101,11 +105,20 @@ ArrayList<Account> userAccounts = new ArrayList<>();
                     AccountCheck(user);
                 }
             } else if (ans ==2) {
+                // WITHDRAW SYSTEM
                 int withdrawamount = Integer.parseInt(IO.readln("Please enter the amount you wish to withdraw:\n"));
                 IO.readln("Please enter your sort code:\n");
                 IO.readln("Please enter your account number:\n");
-                IO.println("The sum of"+withdrawamount+" has been withdrawn from your account");
-                //need to add actual withdraw function
+
+                // Check if withdraw was successful:
+                if(findAccount.withdraw(withdrawamount)) {
+                    IO.println("The sum of "+withdrawamount+" has been withdrawn from your account");
+                    IO.println("Your new balance is: " + findAccount.getBalance());
+                }
+                else {
+                    IO.println("Your balance hasn't been changed.");
+                }
+                // Return Back
                 String nextstep = IO.readln("Please enter either Return to return to the account manager or Stay to stay on this account:\n");
                 if (nextstep.equalsIgnoreCase("Return")){
                     Accountmanager(user);
@@ -115,10 +128,22 @@ ArrayList<Account> userAccounts = new ArrayList<>();
                 }
 
             } else if (ans ==3) {
+                // TRANSFER SYSTEM
                 int transferamount = Integer.parseInt(IO.readln("Please enter the amount you wish to transfer:\n"));
+
+                // Get the destination account
                 String transferdestination = IO.readln("Please enter the destination you wish to transfer:\n");
-                IO.println("The sum of"+transferamount+" has been withdrawn from this account and transferred to "+transferdestination);
-                // need to add actual transfer functionality
+                Account destinationAccount = findAccountByName(user,transferdestination);
+
+                // CHECK IF TRANSFER WAS SUCCESSFUL
+                if (findAccount.transferTo(destinationAccount, transferamount)) {
+                    IO.println("Transfer successful.");
+                    IO.println(findAccount.getAccountName() + " balance: " + destinationAccount.getBalance());
+                    IO.println(findAccount.getAccountName() + " balance: " + findAccount.getBalance());
+                }
+                else {
+                    IO.println("Transfer failed.");
+                }
                 String nextstep = IO.readln("Please enter either Return to return to the account manager or Stay to stay on this account:\n");
                 if (nextstep.equalsIgnoreCase("Return")){
                     Accountmanager(user);
@@ -142,7 +167,7 @@ ArrayList<Account> userAccounts = new ArrayList<>();
             if(checkIfAccountTypeIsValid(enteredAccountType) == Boolean.TRUE) {
                 Account newAccount = new Account(enteredAccountType, enteredAccountName);
                 IO.println(enteredAccountType + " Account created successfully.");
-                userAccounts.add(newAccount);
+                user.getAccounts().add(newAccount);
                 Accountmanager(user);
             }
             else {
@@ -173,3 +198,4 @@ ArrayList<Account> userAccounts = new ArrayList<>();
                 return Boolean.FALSE;
             }
         }
+
