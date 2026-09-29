@@ -46,7 +46,7 @@ void Accountmanager() {
     String answer =IO.readln("\nPlease select a numbered option: \n 1. Select an Account\n 2. Create a new Account\n 3. Exit\n");
     if(answer.equalsIgnoreCase("1")){
         String Accountchoice = IO.readln("Please enter your choice: ");
-        if(Accountchoice.equalsIgnoreCase("Placeholder")){
+        if(Accountchoice.equalsIgnoreCase(userAccounts.get(0).getAccountName())) {
             IO.println("Moving to account!");
             AccountCheck();
         }
